@@ -51,7 +51,7 @@ def get_run_number_lumi_dict(path_to_grls: str) -> Dict[int, float]:
                 run_number = int(spline[0])
                 lumi_rec = float(spline[3])
 
-                run_lumi_dict[run_number] = lumi_rec / 1000 # pb^-1 -> fb^-1
+                run_lumi_dict[run_number] = lumi_rec
     
     return run_lumi_dict
 
@@ -675,6 +675,7 @@ def parse_input_filelists(input_file_list_dir):
             for line in f:
                 if line.startswith("#"): continue
 
+                print(line)
                 the_file_path = line.strip().strip("\n")
                 the_file_name = os.path.basename(the_file_path)
                 the_run_number = the_file_name.split("-")[2]
@@ -708,7 +709,7 @@ def main(args: argparse.Namespace) -> None:
     lumi_dict = {}
     lumi_dict = get_run_number_lumi_dict(args.grl_path)
     run_lumi = lumi_dict.get(args.run, None)
-    print(f"Info: Run {args.run} luminosity = {run_lumi:.3f} /fb")
+    print(f"Info: Run {args.run} luminosity = {run_lumi:.3f} /pb")
 
     #* Construct dataframe
     df = build_dataframe(file_list)
